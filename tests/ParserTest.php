@@ -42,7 +42,14 @@ class ParserTest extends PHPUnit\Framework\TestCase{
     /** @test */
     public function loadFileToParse(){
 
-        $this->assertEquals( \App\Parser::loadFileToParse("README.md"));
+        $this->assertTrue( \App\Parser::loadFileToParse("../README.md"));
+
+    }
+
+    /** @test */
+    public function ErrorOnWrongFileToParse(){
+        $this->assertTrue( \App\Parser::loadFileToParse("../README.d"));
+
     }
 
 

@@ -1,6 +1,8 @@
 <?php 
 namespace App;
 
+use PHPUnit\Runner\Exception;
+
 class Parser {
 
     protected $version = "parser.0.0.1";
@@ -38,11 +40,14 @@ class Parser {
     }
     public static function loadFileToParse($path){
         $p = new Parser();
-        try {
-            $p->file = file_get_contents($path);
-        }catch(exception $e){
-
+        try{
+            $p->file = @file_get_contents($path);
+            var_dump($p->file );
+            return true;
+        }catch(Exception $e){
+            return false;
         }
+
 
     }
 }
