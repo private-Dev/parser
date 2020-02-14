@@ -6,7 +6,8 @@ use PHPUnit\Runner\Exception;
 class Parser {
 
     protected $version = "parser.0.0.1";
-    protected $file;
+    public $file;
+    public $words =[];
 
     protected $openDict = array(
         "#" => "<h1>",
@@ -19,35 +20,47 @@ class Parser {
     );
 
 
-    public static function getversion(){
-        $p = new Parser();
-        return $p->version;
-    }
-    public static function getOpenToken($token){
-        $p = new Parser();
-        return $p->openDict[$token];
-    }
-    public static function getCloseToken($token){
-
-        $p = new Parser();
-
-        return $p->closeDict[$token];
-    }
-    public static function isValidToken($token){
-        $p = new Parser();
-        return  array_key_exists($token ,$p->openDict);
-
-    }
-    public static function loadFileToParse($path){
-        $p = new Parser();
+    function __construct($path) {
         try{
-            $p->file = @file_get_contents($path);
-            var_dump($p->file );
-            return true;
+
+            $this->file = @file_get_contents($path);
+            $this->words  = preg_split('/[\s]+/', $this->file, -1, PREG_SPLIT_NO_EMPTY);
+
         }catch(Exception $e){
-            return false;
+
         }
+    }
+
+    public  function getversion(){
+
+        return $this->version;
+    }
+
+    public function getOpenToken($token){
+
+        return $this->openDict[$token];
+    }
 
 
+    public  function getCloseToken($token){
+
+        return $this->closeDict[$token];
+    }
+
+
+    public  function isValidToken($token){
+
+        return  array_key_exists($token ,$this->openDict);
+
+    }
+
+    public function getWords(){
+        return $this->words;
+    }
+
+    public  function CountTokens(){
+        //$this->loadFileToParse($path);
+        $words = preg_split('/[\s]+/', $this->file, -1, PREG_SPLIT_NO_EMPTY);
+        return count($words);
     }
 }

@@ -10,47 +10,58 @@ class ParserTest extends PHPUnit\Framework\TestCase{
 
     /** @test */
     public function version(){
-
-       $this->assertEquals("parser.0.0.1" , \App\Parser::getVersion());
+        $p = new \App\Parser("../README.d");
+       $this->assertEquals("parser.0.0.1" , $p->getVersion());
     }
     /** @test */
     public function getOpenToken(){
-
-        $this->assertEquals("<h1>" , \App\Parser::getOpenToken("#"));
+        $p = new \App\Parser("../README.d");
+        $this->assertEquals("<h1>" , $p->getOpenToken("#"));
     }
 
     /** @test */
     public function getCloseToken(){
+        $p = new \App\Parser("../README.d");
 
-        $this->assertEquals("</h1>" , \App\Parser::getCloseToken("#"));
+        $this->assertEquals("</h1>" , $p->getCloseToken("#"));
     }
 
     /** @test */
     public function isValidToken(){
-
-        $this->assertTrue( \App\Parser::isValidToken("#"));
-        $this->assertTrue( \App\Parser::isValidToken("##"));
+        $p = new \App\Parser("../README.d");
+        $this->assertTrue( $p->isValidToken("#"));
+        $this->assertTrue( $p->isValidToken("##"));
     }
 
     /** @test */
     public function isInvalidToken(){
-
-        $this->assertFalse( \App\Parser::isValidToken("."));
-    }
-
-
-    /** @test */
-    public function loadFileToParse(){
-
-        $this->assertTrue( \App\Parser::loadFileToParse("../README.md"));
-
+        $p = new \App\Parser("../README.d");
+        $this->assertFalse( $p->isValidToken("."));
     }
 
     /** @test */
     public function ErrorOnWrongFileToParse(){
-        $this->assertTrue( \App\Parser::loadFileToParse("../README.d"));
-
+        $p = new \App\Parser("../README.d");
+        $this->assertFalse(is_string($p->file) );
     }
+
+    /** @test */
+    public function getWords(){
+
+        $ArrayResult = ["#","parser","#","docs"];
+
+        $p = new \App\Parser("../README.md");
+
+        $this->assertEquals($ArrayResult, $p->getWords());
+    }
+
+    /** @test */
+    public function countTokens(){
+        $p = new \App\Parser("../README.md");
+        $this->assertEquals(4, $p->CountTokens());
+    }
+
+
 
 
 
