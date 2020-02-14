@@ -29,6 +29,7 @@ class ParserTest extends PHPUnit\Framework\TestCase{
     public function isValidToken(){
 
         $this->assertTrue( \App\Parser::isValidToken("#"));
+        $this->assertTrue( \App\Parser::isValidToken("##"));
     }
 
     /** @test */
@@ -36,6 +37,16 @@ class ParserTest extends PHPUnit\Framework\TestCase{
 
         $this->assertFalse( \App\Parser::isValidToken("."));
     }
+
+
+    /** @test */
+    public function loadFileToParse(){
+
+        $this->assertEquals( \App\Parser::loadFileToParse("README.md"));
+    }
+
+
+
 
 
 }
